@@ -11,18 +11,18 @@ jobs:
             name: Show current branch
             command: echo ${CURRENT_BRANCH}
         - restore_cache:
-            key: app-{{ checksum "package.json"}}
-              - app-
-        - run: 
-            name: Install yarn
-            command: npm install -g yarn
+            name: Restore Yarn Package Cache
+            key: yarn-packages-{{ checksum "yarn.lock"}}
+              - yarn-packages-
         - run:
             name: Install dependencies
-            command: yarn install
+            command: yarn install --immutable
         - save_cache:
+            name: Save yarn Package Cache
             paths: 
-              - node_modules
-            key: app-{{ checksum "package.json"}}
+              - .yarn/cache
+              - .yarn/unplugged
+            key: yarn-packages-{{ checksum "yarn.lock"}}
     deploy-to-aws-s3:
       docker:
         - image: circleci/node:latest
