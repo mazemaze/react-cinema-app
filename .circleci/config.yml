@@ -61,7 +61,7 @@ jobs:
         - *restore-cache
         - run:
             name: Run linting
-            command: yarn lint
+            command: yarn run lint
     
     prettier:
       executor: app-executor
@@ -71,7 +71,7 @@ jobs:
         - *restore-cache
         - run:
             name: Run prettier check
-            command: npm run prettier:check
+            command: yarn run prettier:check
 
     deploy-to-aws-s3:
       executor: app-executor
